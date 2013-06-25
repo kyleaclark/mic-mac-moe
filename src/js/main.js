@@ -6,10 +6,7 @@
   /**
   * App Init & Reset
   */
-  MMM.app = (function () {
-    var
-      NS = MMM,
-
+  MMM.app = (function (NS) {
       /** 
       * Public methods
       */
@@ -21,7 +18,7 @@
     return {
       init : init
     };
-  }());
+  }(MMM));
 
   $(document).ready(function () {
   	MMM.app.init();

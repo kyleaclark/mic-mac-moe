@@ -67,6 +67,7 @@
           if (board[i].player !== empty) {
             board[i].player = empty;
             square = "#" + board[i].square;
+            // trigger resetBoard event
             emptySquare(square);
           }
         }
