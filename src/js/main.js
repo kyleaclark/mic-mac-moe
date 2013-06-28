@@ -1,4 +1,4 @@
 
-  $(document).ready(function () {
-  	MMM.app._m.init();
-  });
+$(document).ready(function () {
+	MMM.app._m.init();
+});

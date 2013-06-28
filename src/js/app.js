@@ -15,8 +15,8 @@
     */
     _m = {
       init: function () {
-        NS.board._m.init();
         NS.pres._m.init();
+        NS.board._m.init();
         NS.win._m.init();
         NS.storeTurn._m.init()
         NS.handleTurn._m.init();

@@ -28,13 +28,13 @@
     width: 468px;
   }
 
-  #game-board > div {
+  #game-board-squares > div {
     float: left;
     height: 68px;
     width: 92px;
   }
 
-  #game-board > div > img {
+  #game-board-squares > div > img {
     margin-top: 18px;
   }
 
