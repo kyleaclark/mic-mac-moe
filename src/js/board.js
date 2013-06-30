@@ -10,12 +10,12 @@ MMM.board = (function () {
     /**
     * Local object copies of public module methods
     */
-    _pres = {},
+    _pres,
 
     /**
-    * Local method object to expose publically
+    * Local object to expose public methods
     */
-    _m = { },
+    _m,
 
     /**
     * Local constants
@@ -24,12 +24,13 @@ MMM.board = (function () {
     MAX_ROWS,
     MAX_COLS,
     MAX,
+    $gameBoard,
 
     /** 
     * Local variables
     */
     boardData = [],
-    boardObj = {},
+    boardObj,
     squareID,
     index,
     i,
@@ -39,31 +40,13 @@ MMM.board = (function () {
   * Local initialize
   */
   function initialize () {
-    setPublicMethodCopies();
+    setupPublicMethodCopies();
     setGlobalVars();
-    setBoardData();
-    
 
-    function setPublicMethodCopies () {
+    function setupPublicMethodCopies () {
       _pres = {
-        emptySquare : NS.pres._m.emptySquare,
         renderGameBoardSquares : NS.pres._m.renderGameBoardSquares
       };
-    }
-
-    function setBoardData () {
-      for (i = 0; i < MAX_ROWS; i++) {
-        for (j = 0; j < MAX_COLS; j++) {
-          squareID = "sq-" + i + "-" + j;
-          boardObj = {
-            row: i,
-            col: j,
-            square: squareID,
-            player: ""
-          };
-          boardData.push(boardObj);
-        }
-      }
     }
 
     function setGlobalVars () {
@@ -71,7 +54,26 @@ MMM.board = (function () {
       MAX_ROWS = 5;
       MAX_COLS = 5;
       MAX = MAX_ROWS * MAX_COLS;
+      $gameBoard = $("#game-board");
+
+      setBoardData();
+
+      function setBoardData () {
+        for (i = 0; i < MAX_ROWS; i++) {
+          for (j = 0; j < MAX_COLS; j++) {
+            squareID = "sq-" + i + "-" + j;
+            boardObj = {
+              row: i,
+              col: j,
+              square: squareID,
+              player: ""
+            };
+            boardData.push(boardObj);
+          }
+        }
+      }
     }
+
   }
 
   /**
@@ -116,7 +118,7 @@ MMM.board = (function () {
 
     setPlayerBySquare: function (player, square) {
       index = _m.getIndexBySquare(square);
-      boardData[index].player = player
+      boardData[index].player = player;
     },
 
     resetBoardData: function (index) {
@@ -124,12 +126,10 @@ MMM.board = (function () {
         if (boardData[i].player !== EMPTY) {
           boardData[i].player = EMPTY;
           squareID = "#" + boardData[i].square;
-          // trigger resetboardData event
-          //_pres.emptySquare(squareID);
         }
       }
 
-      _pres.renderGameBoardSquares();
+      $gameBoard.trigger("renderGameBoardSquares");
     },
 
     init: function () {

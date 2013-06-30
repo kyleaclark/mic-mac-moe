@@ -14,9 +14,9 @@ MMM.pres = (function () {
     boardConfig = [],
 
     /**
-    * Local method object to expose publically
+    * Local object to expose public methods
     */
-    _m = { },
+    _m,
 
     /** 
     * Local constants
@@ -24,6 +24,7 @@ MMM.pres = (function () {
     PLAYER_X = {},
     PLAYER_O = {},
     X,
+    WINNER_FADEIN,
     $winner,
     $gameBoard,
     $gameBoardTemplate,
@@ -31,7 +32,9 @@ MMM.pres = (function () {
     /**
     * Local variables
     */
-    $gameBoardSquares;
+    $gameBoardSquares,
+    gameBoardSquares,
+    playerWins;
 
   /*
   ** Local initialize
@@ -40,6 +43,8 @@ MMM.pres = (function () {
     setPublicPropertyCopies();
     setGlobalVars();
     generateGameBoardSquares();
+    _m.renderGameBoardSquares();
+    _m.renderWin();
 
     function setPublicPropertyCopies () {
       boardConfig = NS.boardConfig;
@@ -60,11 +65,15 @@ MMM.pres = (function () {
       };
 
       X = "X";
+      WINNER_FADEIN = 400;
 
       $gameBoardTemplate = $("#game-board-template");
+      $winTemplate = $("#win-template");
       $gameBoard = $("#game-board");
-      $gameBoardSquares = $("<div id='game-board-squares'>");
-      $winner = $("#winner");
+      $gameWinner = $("#game-winner");
+      gameBoardSquares = "";
+      playerWins = "";
+      $winner = $("#game-winner");
     }
 
     function generateGameBoardSquares () {
@@ -76,10 +85,8 @@ MMM.pres = (function () {
       }());
 
       _.each(boardConfig, function (conf) {
-        $gameBoardSquares.append(renderGameSquare(conf));
+        gameBoardSquares += renderGameSquare(conf);
       });
-
-      _m.renderGameBoardSquares();
     }
   }
 
@@ -87,17 +94,13 @@ MMM.pres = (function () {
   ** Public methods
   */
   _m = {
-    renderGameBoardSquares: function () {
-      console.log($gameBoardSquares);
-      //$gameBoard.replaceWith($gameBoardSquares);
-      $gameBoard.empty().html($gameBoardSquares);
+    renderGameBoardSquares : function () {
+      $gameBoard.on("renderGameBoardSquares", function () {
+        $(this).empty().html(gameBoardSquares);
+      });
     },
 
-    emptySquare: function (square) {
-      $(square).empty();
-    },
-
-    renderTurn: function (player, id) {
+    renderTurn : function (player, id) {
       id = "#" + id;
 
       if (player === X) {
@@ -107,15 +110,34 @@ MMM.pres = (function () {
       }
     },
 
-    renderWin: function () {
-      $winner.show();
+    renderWin : function () {
+      $gameWinner.on("renderPlayerWins", function (e, opts) {
+        var renderPlayerWins = (function () {
+          var winTemplate = $winTemplate.html();
+          var playerWinsTemplate = _.template(winTemplate);
+
+          return playerWinsTemplate;
+        }());
+
+        /* Refactor obj !!! */
+        var obj = {
+           player : opts
+        };
+
+        playerWins = renderPlayerWins(obj);
+        $gameWinner.prepend(playerWins);
+        $("#overlay").show();
+        $gameWinner.fadeIn(WINNER_FADEIN);
+      });
     },
 
-    hideWin: function () {
-      $winner.hide();
+    hideWin : function () {
+      $("#overlay").hide();
+      $gameWinner.children("h2").remove();
+      $gameWinner.hide();
     },
 
-    init: function () {
+    init : function () {
       initialize();
     }
   };

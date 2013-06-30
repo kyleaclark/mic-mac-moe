@@ -11,9 +11,9 @@ MMM.storeTurn = (function () {
     numberOfTurns,
 
     /**
-    * Local method object to expose publically
+    * Local object to expose public methods
     */
-    _m = { };
+    _m;
 
   /**
   * Local initialize
@@ -71,15 +71,16 @@ MMM.handleTurn = (function (square) {
     /**
     * Local object copies of public module methods
     */
-    _board = {},
-    _storeTurn = {},
-    _pres = {},
-    _win = {},
+    _game,
+    _board,
+    _storeTurn,
+    _pres,
+    _win,
 
     /**
     * Local object to expose local methods publically
     */
-    _m = {},
+    _m,
 
     /**
     * Local variables
@@ -87,6 +88,7 @@ MMM.handleTurn = (function (square) {
     X,
     O,
     GAME_BOARD,
+    RESET_GAME,
     $boardID,
     square,
     player;
@@ -99,6 +101,11 @@ MMM.handleTurn = (function (square) {
     setGlobalVars();
 
     function setPublicMethodCopies () {
+      _game = {
+        newGame : NS.game._m.newGame,
+        setWinner : NS.game._m.setWinner
+      };
+
       _board = {
         getPlayerBySquare : NS.board._m.getPlayerBySquare,
         setPlayerBySquare : NS.board._m.setPlayerBySquare,
@@ -127,6 +134,7 @@ MMM.handleTurn = (function (square) {
       O = "O";
       GAME_BOARD = "game-board";
       $boardID = $("#" + GAME_BOARD);
+      RESET_GAME = true;
     }
   }
 
@@ -155,10 +163,7 @@ MMM.handleTurn = (function (square) {
 
       // Check for win after 5 turns when a win is possible
       if (_storeTurn.getNumberOfTurns() > 3 && _win.isWin(square)) {
-        console.log("Winner");
-        _pres.renderWin();
-        _board.resetBoardData();
-        _pres.hideWin();
+        _game.setWinner(player);
       }
 
       updatePlayerTurn();

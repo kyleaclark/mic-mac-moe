@@ -14,9 +14,9 @@ MMM.win = (function () {
     _storeTurn = {},
 
     /**
-    * Method object to expose publically
+    * Local object to expose public methods
     */
-    _m = {},
+    _m,
 
     /**
     * Local constants
@@ -32,14 +32,8 @@ MMM.win = (function () {
     index,
     row,
     col,
-    rowUpOne,
-    rowUpTwo,
-    rowDownOne,
-    rowDownTwo,
-    colLeftOne,
-    colLeftTwo,
-    colRightOne,
-    colRightTwo;
+    rows,
+    cols;
 
   /**
   * Local initialize
@@ -76,14 +70,19 @@ MMM.win = (function () {
     index = _board.getIndexBySquare(square);
     row = _board.getRowByIndex(index);
     col = _board.getColByIndex(index);
-    rowUpOne = row - ONE;
-    rowUpTwo = row - TWO;
-    rowDownOne = row + ONE;
-    rowDownTwo = row + TWO;
-    colLeftOne = col - ONE;
-    colLeftTwo = col - TWO;
-    colRightOne = col + ONE;
-    colRightTwo = col + TWO;
+    rows = {
+      upOne: row - ONE,
+      upTwo: row - TWO,
+      downOne: row + ONE,
+      downTwo: row + TWO
+    };
+    cols = {
+      leftOne: col - ONE,
+      leftTwo: col - TWO,
+      rightOne: col + ONE,
+      rightTwo: col + TWO
+    };
+    
   }
 
   function isSquarePlayer (row, col) {
@@ -98,91 +97,70 @@ MMM.win = (function () {
   }
 
   function checkVerticalWin () {
-    if (isSquarePlayer(rowUpOne, col)) {
-      if (isSquarePlayer(rowUpTwo, col)) {
+    if (isSquarePlayer(rows.upOne, col) 
+      && (isSquarePlayer(rows.upTwo, col) || isSquarePlayer(rows.downOne, col))) {
         return true;
-      } else if (isSquarePlayer(rowDownOne, col)) {
-          return true;
-      }
-    } else if (isSquarePlayer(rowDownOne, col)) {
-        if (isSquarePlayer(rowDownTwo, col)){
-          return true;
-        }
+    } else if (isSquarePlayer(rows.downOne, col) && isSquarePlayer(rows.downTwo, col)) {
+        return true;
     }
+
     return false;
   }
 
   // Check Horizontal Win
   function checkHorizontalWin () {
-    if (isSquarePlayer(row, colLeftOne)) {
-      if (isSquarePlayer(row, colLeftTwo)) {
+    if (isSquarePlayer(row, cols.leftOne) 
+      && (isSquarePlayer(row, cols.leftTwo) || isSquarePlayer(row, cols.rightOne))) {
         return true;
-      } else if (isSquarePlayer(row, colRightOne)) {
-          return true;
-      }
-    } else if (isSquarePlayer(row, colRightOne)){
-        if (isSquarePlayer(row, colRightTwo)) {
-          return true;
-        }
+    } else if (isSquarePlayer(row, cols.rightOne) && isSquarePlayer(row, cols.rightTwo)) {
+        return true;
     }
+
     return false;
   }
 
   function checkDiagnolWin () {
-    if (checkDiagnolUpLeft()) {
-      return true;
-    } else if (checkDiagnolDownLeft()) {
-      return true;
-    } else if (checkDiagnolUpRight()) {
-      return true;
-    } else if (checkDiagnolDownRight()) {
+    if (checkDiagnolUpLeft() || checkDiagnolDownLeft() || checkDiagnolUpRight() || checkDiagnolDownRight()) {
       return true;
     }
 
     return false;
 
     function checkDiagnolUpLeft () {
-      if (isSquarePlayer(rowUpOne, colLeftOne)) {
-        if (isSquarePlayer(rowUpTwo, colLeftTwo))  {
+      if (isSquarePlayer(rows.upOne, cols.leftOne) 
+        && (isSquarePlayer(rows.upTwo, cols.leftTwo) || isSquarePlayer(rows.downOne, cols.rightOne))) {
           return true;
-        } else if (isSquarePlayer(rowDownOne, colRightOne))  {
-            return true;
-        }
       }
 
       return false;
     }
 
     function checkDiagnolDownLeft () {
-      if (isSquarePlayer(rowDownOne, colLeftOne))  {
-        if (isSquarePlayer(rowDownTwo, colLeftTwo)) {
+      if (isSquarePlayer(rows.downOne, cols.leftOne) 
+        && (isSquarePlayer(rows.downTwo, cols.leftTwo) || isSquarePlayer(rows.upOne, cols.rightOne)))  {
           return true;
-        } else if (isSquarePlayer(rowUpOne, colRightOne)) {
-            return true;
-        }
       }
 
       return false;
     }
 
     function checkDiagnolUpRight () {
-      if (isSquarePlayer(rowUpOne, colRightOne)) {
-        if (isSquarePlayer(rowUpTwo, colRightTwo)){
+      if (isSquarePlayer(rows.upOne, cols.rightOne) 
+        && (isSquarePlayer(rows.upTwo, cols.rightTwo))) {
           return true;
-        } else if (isSquarePlayer(rowDownOne, colLeftOne)) {
+      } else if (isSquarePlayer(rows.downOne, cols.leftOne)) {
           return true;
-        }
       }
 
       return false;
     }
 
     function checkDiagnolDownRight () {
-      if (isSquarePlayer(rowDownOne, colRightOne)) {
-        if (isSquarePlayer(rowDownTwo, colRightTwo)) {
+      if (isSquarePlayer(rows.downOne, cols.rightOne)) {
+        if (isSquarePlayer(rows.downTwo, cols.rightTwo)) {
           return true;
         }
-        else if (isSquarePlayer(rowUpOne, colLeftOne)) {
+        else if (isSquarePlayer(rows.upOne, cols.leftOne)) {
           return true;
         }
       }
