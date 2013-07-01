@@ -58,7 +58,7 @@ MMM.game = (function () {
     }
 
     function bindEvents () {
-      _m.playAgain();
+      _m.playAgainEvent();
     }
  	}
 
@@ -70,13 +70,13 @@ MMM.game = (function () {
       if (reset) {
         _board.resetBoardData();
         _storeTurn.init();
-        _pres.hideWin();
+        $gameWinner.trigger("hidePlayerWins");
       }
 
       $gameBoard.trigger("renderGameBoardSquares");
     },
 
-    playAgain : function () {
+    playAgainEvent : function () {
       $playAgain.on("click", function () {
         _m.newGame(RESET_GAME)
       });
@@ -84,10 +84,9 @@ MMM.game = (function () {
 
     setWinner : function (player) {
       /**
-      * Refactor potential to track and store multiple winners 
+      * Potential refactor to track and store multiple winners 
       */
-      $gameWinner.trigger("renderPlayerWins", player);
-
+      $gameWinner.trigger("renderPlayerWins", {"player" : player});
     },
 
    	init : function () {

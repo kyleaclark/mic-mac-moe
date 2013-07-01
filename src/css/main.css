@@ -1,6 +1,7 @@
 body {
   background-color: #010101;
   color: #a3d34b;
+  font-family: "Helvetica Neue", Helvetica, "Arimo", Arial, sans-serif;
   margin: 0 auto;
   text-align: center;
 }
@@ -19,10 +20,6 @@ body {
 
 #logo {
   margin-top: 50px;
-}
-
-#winner {
-  display: none;
 }
 
 #game-board {
@@ -64,42 +61,27 @@ body {
   border: 3px solid rgba(163, 211, 75, .5);
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
+  border-radius: 5px;
   display: none;
-  height: 300px;
+  height: 240px;
   left: 50%;
   margin-left: -200px;
-  margin-top: -357px;
+  margin-top: -400px;
+  padding-top: 60px;
   position: fixed;
   width: 400px;
 }
 
 /* refactor !!! */
 .btn-play-again {
-  -moz-box-shadow:inset 0px 1px 11px 0px #caefab;
-  -webkit-box-shadow:inset 0px 1px 11px 0px #caefab;
-  box-shadow:inset 0px 1px 11px 0px #caefab;
-  background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #77d42a), color-stop(1, #5cb811) );
-  background:-moz-linear-gradient( center top, #77d42a 5%, #5cb811 100% );
-  filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#77d42a', endColorstr='#5cb811');
-  background-color:#77d42a;
-  -moz-border-radius:5px;
-  -webkit-border-radius:5px;
-  border-radius:5px;
-  border:1px solid #268a16;
-  display:inline-block;
-  color:#306108;
-  font-family:arial;
-  font-size:39px;
-  font-weight:bold;
-  padding:6px 24px;
-  text-decoration:none;
-  text-shadow:1px 1px 0px #aade7c;
-}.btn-play-again:hover {
-  background:-webkit-gradient( linear, left top, left bottom, color-stop(0.05, #5cb811), color-stop(1, #77d42a) );
-  background:-moz-linear-gradient( center top, #5cb811 5%, #77d42a 100% );
-  filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#5cb811', endColorstr='#77d42a');
-  background-color:#5cb811;
-}.btn-play-again:active {
-  position:relative;
-  top:1px;
+  background-color: #a3d34b;
+  border: 3px solid rgba(68, 68, 58, .5);
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+  border-radius: 5px;
+  font-size: 18px;
+  font-weight: bold;
+  opacity: .85;
+  filter: alpha(opacity=85);
+  padding: 6px 12px;
 }

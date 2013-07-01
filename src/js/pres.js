@@ -43,15 +43,16 @@ MMM.pres = (function () {
     setPublicPropertyCopies();
     setGlobalVars();
     generateGameBoardSquares();
-    _m.renderGameBoardSquares();
-    _m.renderWin();
+    bindEvents();
 
     function setPublicPropertyCopies () {
       boardConfig = NS.boardConfig;
     }
 
     function setGlobalVars() {
-      // Set underscore templating to use curly braces {{ }}
+      /**
+      * Set underscore templating to use curly braces {{ }}
+      */
       _.templateSettings.interpolate = /\{\{(.+?)\}\}/g;
 
       PLAYER_X = {
@@ -65,7 +66,8 @@ MMM.pres = (function () {
       };
 
       X = "X";
-      WINNER_FADEIN = 400;
+      WINNER_FADEIN = 800;
+      TURN_FADEIN = 300;
 
       $gameBoardTemplate = $("#game-board-template");
       $winTemplate = $("#win-template");
@@ -88,13 +90,19 @@ MMM.pres = (function () {
         gameBoardSquares += renderGameSquare(conf);
       });
     }
+
+    function bindEvents () {
+      _m.renderGameBoardSquaresEvent();
+      _m.renderWinEvent();
+      _m.hideWinEvent();
+    }
   }
 
   /*
   ** Public methods
   */
   _m = {
-    renderGameBoardSquares : function () {
+    renderGameBoardSquaresEvent : function () {
       $gameBoard.on("renderGameBoardSquares", function () {
         $(this).empty().html(gameBoardSquares);
       });
@@ -104,13 +112,14 @@ MMM.pres = (function () {
       id = "#" + id;
 
       if (player === X) {
-        $("<img>", PLAYER_X).appendTo(id);
+        //$(id).fadeIn
+        $("<img>", PLAYER_X).fadeIn(TURN_FADEIN).appendTo(id);
       } else {
-        $("<img>", PLAYER_O).appendTo(id);
+        $("<img>", PLAYER_O).fadeIn(TURN_FADEIN).appendTo(id);
       }
     },
 
-    renderWin : function () {
+    renderWinEvent : function () {
       $gameWinner.on("renderPlayerWins", function (e, opts) {
         var renderPlayerWins = (function () {
           var winTemplate = $winTemplate.html();
@@ -119,22 +128,22 @@ MMM.pres = (function () {
           return playerWinsTemplate;
         }());
 
-        /* Refactor obj !!! */
-        var obj = {
-           player : opts
-        };
-
-        playerWins = renderPlayerWins(obj);
+        playerWins = renderPlayerWins(opts);
         $gameWinner.prepend(playerWins);
-        $("#overlay").show();
-        $gameWinner.fadeIn(WINNER_FADEIN);
+        setTimeout(function () {
+          $("#overlay").show();
+          $gameWinner.fadeIn(WINNER_FADEIN);
+        }, TURN_FADEIN);
+        
       });
     },
 
-    hideWin : function () {
-      $("#overlay").hide();
-      $gameWinner.children("h2").remove();
-      $gameWinner.hide();
+    hideWinEvent : function () {
+      $gameWinner.on("hidePlayerWins", function () {
+        $("#overlay").hide();
+        $gameWinner.children("h1").remove();
+        $gameWinner.hide();
+      });
     },
 
     init : function () {
