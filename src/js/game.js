@@ -78,7 +78,7 @@ MMM.game = (function () {
 
     playAgainEvent : function () {
       $playAgain.on("click", function () {
-        _m.newGame(RESET_GAME)
+        _m.newGame(RESET_GAME);
       });
     },
 

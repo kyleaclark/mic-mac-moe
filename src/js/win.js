@@ -89,7 +89,6 @@ MMM.win = (function () {
     index = (row * MATRIX_ROWS) + col;
 
     if (_board.getPlayerByIndex(index) === player) {
-
       return true;
     }
 
@@ -146,9 +145,7 @@ MMM.win = (function () {
 
     function checkDiagnolUpRight () {
       if (isSquarePlayer(rows.upOne, cols.rightOne) 
-        && (isSquarePlayer(rows.upTwo, cols.rightTwo))) {
-          return true;
-      } else if (isSquarePlayer(rows.downOne, cols.leftOne)) {
+        && (isSquarePlayer(rows.upTwo, cols.rightTwo) || isSquarePlayer(rows.downOne, cols.leftOne))) {
           return true;
       }
 
@@ -156,13 +153,9 @@ MMM.win = (function () {
     }
 
     function checkDiagnolDownRight () {
-      if (isSquarePlayer(rows.downOne, cols.rightOne)) {
-        if (isSquarePlayer(rows.downTwo, cols.rightTwo)) {
+      if (isSquarePlayer(rows.downOne, cols.rightOne) 
+        && (isSquarePlayer(rows.downTwo, cols.rightTwo) || isSquarePlayer(rows.upOne, cols.leftOne)))  {
           return true;
-        }
-        else if (isSquarePlayer(rows.upOne, cols.leftOne)) {
-          return true;
-        }
       }
 
       return false;

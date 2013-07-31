@@ -53,7 +53,7 @@ MMM.pres = (function () {
       /**
       * Set underscore templating to use curly braces {{ }}
       */
-      _.templateSettings.interpolate = /\{\{(.+?)\}\}/g;
+      //_.templateSettings.interpolate = /\{\{(.+?)\}\}/g;
 
       PLAYER_X = {
         src: "img/player-x.png",
