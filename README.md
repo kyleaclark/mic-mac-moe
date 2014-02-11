@@ -15,9 +15,9 @@ Created as a personal application.  Play a web-based game of mic-mac-moe (5x5 gr
 
 JavaScript
 
-jQuery 1.9.1
+jQuery
 
-Underscore
+UnderscoreJS
 
 HTML5
 
